@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ Fetchly
+# ⚡Fetchly
 
 **Download videos, audio and photos from YouTube, TikTok and Instagram.**
 Paste a link, pick a quality, done.
