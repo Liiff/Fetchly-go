@@ -19,8 +19,6 @@ Paste a link, pick a quality, done.
 [API](#-api) •
 [Configuration](#%EF%B8%8F-configuration) •
 [Architecture](#-architecture) •
-[Security](#-security) •
-[Troubleshooting](#-troubleshooting)
 
 </div>
 
