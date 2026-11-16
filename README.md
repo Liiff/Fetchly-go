@@ -230,17 +230,6 @@ fetchly/
 ---
 
 
-## 🧪 Testing
-
-```bash
-go test ./...
-```
-
-Tests cover URL and filename validation, IP filtering, the rate limiter, the semaphore, yt-dlp error classification, and formatting helpers.
-
----
-
-
 ## ⚖️ Disclaimer
 
 Fetchly is built for learning and personal use. Downloading content from YouTube, TikTok and Instagram may violate each platform's terms of service, and downloaded content remains protected by its owner's copyright. Make sure you have the right or permission to download any content, and you are solely responsible for how you use this tool. If you expose this service publicly, also consider the legal risks and the possibility of being blocked by the platforms.
