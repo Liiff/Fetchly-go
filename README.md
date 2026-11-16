@@ -28,11 +28,11 @@ Paste a link, pick a quality, done.
 
 ## ✨ Features
 
-| | Platform | What you can download |
-|---|---|---|
-|  | **YouTube** | 1080p / 720p / 480p video (H.264 + AAC, plays on any phone) and M4A audio |
-|  | **TikTok** | Highest-resolution MP4 and the original audio |
-|  | **Instagram** | Reels, single photos, and carousels (every slide, photo or video) |
+| Platform | What you can download |
+|---|---|
+| **YouTube** | 1080p / 720p / 480p video (H.264 + AAC, plays on any phone) and M4A audio |
+| **TikTok** | Highest-resolution MP4 and the original audio |
+| **Instagram** | Reels, single photos, and carousels (every slide, photo or video) |
 
 
 ---
