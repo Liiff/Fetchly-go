@@ -1,5 +1,3 @@
-<p align="right">🇬🇧 <b>English</b> · <a href="README.id.md">🇮🇩 Bahasa Indonesia</a></p>
-
 <div align="center">
 
 # ⚡ Fetchly
