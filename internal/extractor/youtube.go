@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/Liiff/fetchly/internal/model"
+	"github.com/Liiff/fetchly-go/internal/model"
 )
 
 // StreamFormat adalah satu pilihan unduhan YouTube. Client hanya mengirim ID pendek;

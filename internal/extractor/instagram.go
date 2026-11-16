@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Liiff/fetchly/internal/model"
-	"github.com/Liiff/fetchly/internal/safehttp"
-	"github.com/Liiff/fetchly/internal/validate"
+	"github.com/Liiff/fetchly-go/internal/model"
+	"github.com/Liiff/fetchly-go/internal/safehttp"
+	"github.com/Liiff/fetchly-go/internal/validate"
 )
 
 const (

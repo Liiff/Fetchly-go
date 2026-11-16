@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Liiff/fetchly/internal/extractor"
-	"github.com/Liiff/fetchly/internal/limit"
-	"github.com/Liiff/fetchly/internal/model"
-	"github.com/Liiff/fetchly/internal/streamer"
-	"github.com/Liiff/fetchly/internal/validate"
+	"github.com/Liiff/fetchly-go/internal/extractor"
+	"github.com/Liiff/fetchly-go/internal/limit"
+	"github.com/Liiff/fetchly-go/internal/model"
+	"github.com/Liiff/fetchly-go/internal/streamer"
+	"github.com/Liiff/fetchly-go/internal/validate"
 	"github.com/gin-gonic/gin"
 )
 

@@ -12,9 +12,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Liiff/fetchly/internal/handler"
-	"github.com/Liiff/fetchly/internal/limit"
-	"github.com/Liiff/fetchly/internal/validate"
+	"github.com/Liiff/fetchly-go/internal/handler"
+	"github.com/Liiff/fetchly-go/internal/limit"
+	"github.com/Liiff/fetchly-go/internal/validate"
 	"github.com/gin-gonic/gin"
 )
 
@@ -62,7 +62,7 @@ func main() {
 		MaxProxy:   envInt("MAX_PROXY", 20),
 	})
 
-	extractLimiter := limit.NewIPLimiter(20, 5)  // 20 permintaan/menit per IP, burst 5
+	extractLimiter := limit.NewIPLimiter(20, 5)   // 20 permintaan/menit per IP, burst 5
 	downloadLimiter := limit.NewIPLimiter(30, 10) // 30 permintaan/menit per IP, burst 10
 
 	api := r.Group("/api")

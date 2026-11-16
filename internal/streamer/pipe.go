@@ -14,9 +14,9 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/Liiff/fetchly/internal/safehttp"
-	"github.com/Liiff/fetchly/internal/validate"
-	"github.com/Liiff/fetchly/internal/ytdlp"
+	"github.com/Liiff/fetchly-go/internal/safehttp"
+	"github.com/Liiff/fetchly-go/internal/validate"
+	"github.com/Liiff/fetchly-go/internal/ytdlp"
 )
 
 const (

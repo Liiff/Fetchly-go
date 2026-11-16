@@ -9,7 +9,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/Liiff/fetchly/internal/ytdlp"
+	"github.com/Liiff/fetchly-go/internal/ytdlp"
 )
 
 // ytdlpOutput merepresentasikan field penting dari output `yt-dlp --dump-json`

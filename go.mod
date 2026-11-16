@@ -1,4 +1,4 @@
-module github.com/Liiff/fetchly
+module github.com/Liiff/fetchly-go
 
 go 1.27.1
 

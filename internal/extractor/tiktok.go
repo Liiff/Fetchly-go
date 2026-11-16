@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Liiff/fetchly/internal/model"
+	"github.com/Liiff/fetchly-go/internal/model"
 )
 
 type TikTokExtractor struct{}
