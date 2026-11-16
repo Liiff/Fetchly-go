@@ -59,10 +59,10 @@ go run ./cmd/server
 
 Open **http://localhost:8080**, paste a link, and hit **EXTRACT**.
 
-> 💡 Run with `GIN_MODE=debug` during development for more verbose logs.
+> Run with `GIN_MODE=debug` during development for more verbose logs.
 
 <details>
-<summary><b>🪟 Windows notes</b></summary>
+<summary><b>Windows notes</b></summary>
 
 <br>
 
@@ -80,7 +80,7 @@ Fetchly looks in the project folder first, then falls back to the system `PATH`.
 </details>
 
 <details>
-<summary><b>🍪 Using cookies (age-restricted or login-only content)</b></summary>
+<summary><b>Using cookies (age-restricted or login-only content)</b></summary>
 
 <br>
 
