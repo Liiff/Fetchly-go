@@ -151,18 +151,6 @@ When `is_stream` is `true`, the server processes the file through yt-dlp. When i
 { "status": "ok", "service": "fetchly-go" }
 ```
 
-### Status codes
-
-| Code | Meaning |
-|:---:|---|
-| `200` | Success |
-| `400` | Invalid URL, unsupported platform, or host not allowed |
-| `422` | Media is age-restricted or private |
-| `429` | Too many requests from the same IP |
-| `502` | Extraction or download from the source failed |
-| `503` | Server is busy (all process slots taken), try again shortly |
-| `504` | Timed out |
-
 ---
 
 ## ⚙️ Configuration
