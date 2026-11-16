@@ -18,7 +18,7 @@ Paste a link, pick a quality, done.
 [Quick Start](#-quick-start) •
 [API](#-api) •
 [Configuration](#%EF%B8%8F-configuration) •
-[Architecture](#-architecture) •
+[Architecture](#-architecture)
 
 </div>
 
