@@ -1,0 +1,8 @@
+yt-dlp.exe
+ffmpeg.exe
+cookies.txt
+deno.exe
+ffprobe.exe
+*.log
+*.exe
+.env

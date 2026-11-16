@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html class="dark" lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+  <title>FETCHLY — All-in-One Media Extractor</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#11131a",
+            "surface-container-lowest": "#0c0e15",
+            "surface-container-low": "#191b23",
+            "surface-container": "#1d1f27",
+            "surface-container-high": "#282a31",
+            "surface-container-highest": "#33343c",
+            "surface-variant": "#33343c",
+            "on-surface": "#e2e2ec",
+            "on-surface-variant": "#c7c4d7",
+            "outline": "#908fa0",
+            "outline-variant": "#464554",
+            "primary": "#c0c1ff",
+            "primary-container": "#8083ff",
+            "on-primary": "#1000a9",
+            "secondary": "#ddb7ff",
+            "secondary-container": "#6f00be",
+            "on-secondary": "#490080",
+            "tertiary": "#4edea3",
+            "on-tertiary": "#003824",
+            "error": "#ffb4ab",
+            "error-container": "#93000a",
+            "on-error": "#690005"
+          },
+          fontFamily: {
+            "syne": ["Syne", "sans-serif"],
+            "inter": ["Inter", "sans-serif"],
+            "mono": ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    ::-webkit-scrollbar { display: none; }
+    body { overscroll-behavior: none; overflow-x: hidden; }
+  </style>
+</head>
+
+<body class="bg-surface-container-lowest text-on-surface font-inter antialiased min-h-screen flex flex-col selection:bg-primary selection:text-on-primary">
+
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-outline-variant/30">
+    <div class="h-24 flex flex-col justify-between">
+      <div class="h-16 w-full max-w-[880px] mx-auto px-4 md:px-8 flex items-center justify-between">
+        <!-- Brand Logo -->
+        <a class="flex items-center gap-2 tracking-tight font-syne text-[22px] font-extrabold" href="/">
+          <span class="w-8 h-8 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-[20px]">bolt</span>
+          </span>
+          <div>
+            <span class="text-on-surface">FETCH</span><span class="text-secondary">LY</span>
+          </div>
+        </a>
+
+        <!-- Platform Status Pills -->
+        <div class="flex items-center gap-2 font-mono text-[10px] font-semibold">
+          <div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40 text-on-surface-variant">
+            <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+            <span>YouTube</span>
+          </div>
+          <div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40 text-on-surface-variant">
+            <span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+            <span>TikTok</span>
+          </div>
+          <div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40 text-on-surface-variant">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+            <span>Instagram</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ticker Bar -->
+      <div class="h-8 w-full bg-surface-container-lowest/95 border-t border-outline-variant/20 flex items-center overflow-x-auto">
+        <div class="w-full max-w-[880px] mx-auto px-4 md:px-8 flex items-center justify-between gap-4 font-mono text-[10px] text-on-surface-variant tracking-wider uppercase whitespace-nowrap">
+          <span class="flex items-center gap-1.5"><span class="text-tertiary">⚡</span> YouTube HD &amp; Audio</span>
+          <span class="text-outline-variant">•</span>
+          <span class="flex items-center gap-1.5"><span class="text-secondary">🎵</span> TikTok No-Watermark</span>
+          <span class="hidden sm:inline-block text-outline-variant">•</span>
+          <span class="hidden sm:flex items-center gap-1.5"><span class="text-primary">📸</span> IG Carousel &amp; Reels</span>
+          <span class="hidden md:inline-block text-outline-variant">•</span>
+          <span class="hidden md:flex items-center gap-1.5"><span class="text-tertiary">🚀</span> Zero-Disk Hybrid Stream</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="relative w-full pt-28 flex-1 bg-surface-container-lowest">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[340px] pointer-events-none opacity-40 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary-container/20 via-secondary-container/10 to-transparent blur-3xl"></div>
+
+    <div class="relative max-w-[880px] mx-auto px-4 md:px-8 py-6 sm:py-10">
+      <div class="flex flex-col w-full">
+
+        <!-- HERO INPUT CARD -->
+        <section class="relative w-full rounded-xl bg-surface-container-low border border-outline-variant/30 p-4 sm:p-8 shadow-xl overflow-hidden">
+          <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[520px] h-[260px] bg-primary/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+          <div class="relative z-10 flex flex-col items-center text-center">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-primary font-mono text-[10px] tracking-widest uppercase mb-4 shadow-sm">
+              <span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+              <span class="text-tertiary">⚡</span>
+              <span class="font-semibold">ALL-IN-ONE MEDIA EXTRACTOR</span>
+            </div>
+
+            <h1 class="font-syne text-[28px] leading-[36px] sm:text-[40px] sm:leading-[48px] font-extrabold text-on-surface max-w-[680px] mb-2">
+              DOWNLOAD ANY VIDEO <span class="text-primary">OR CAROUSEL</span>
+            </h1>
+
+            <p class="text-[13px] sm:text-[15px] text-on-surface-variant max-w-[560px] mb-6">
+              Tempel tautan dari YouTube, TikTok, atau Instagram untuk melihat pratinjau dan mengunduh kualitas asli.
+            </p>
+
+            <!-- Input Command Bar -->
+            <form id="extract-form" class="w-full max-w-[760px] bg-surface-container-lowest border border-outline-variant/40 focus-within:border-primary rounded-xl p-1.5 shadow-lg flex flex-col sm:flex-row items-center gap-2 transition-colors">
+              <div class="flex items-center gap-2 px-3 w-full sm:flex-1 h-12">
+                <span class="material-symbols-outlined text-primary text-[20px] shrink-0">link</span>
+                <input
+                  id="url-input"
+                  type="url"
+                  required
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="https://www.youtube.com/watch?v=... atau link TikTok / IG"
+                  class="bg-transparent w-full min-w-0 text-on-surface font-mono text-[13px] focus:outline-none placeholder:text-outline"
+                />
+                <button id="clear-btn" type="button" title="Hapus" class="hidden text-outline hover:text-on-surface cursor-pointer">
+                  <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2 w-full sm:w-auto shrink-0 px-1 pb-1 sm:p-0">
+                <button id="paste-btn" type="button" class="h-11 sm:h-10 px-4 sm:px-3 flex-1 sm:flex-none justify-center rounded-lg bg-surface-container hover:bg-surface-variant text-on-surface-variant hover:text-on-surface font-mono text-[11px] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer">
+                  <span class="material-symbols-outlined text-[16px]">content_paste</span>
+                  <span>PASTE</span>
+                </button>
+
+                <button id="extract-btn" type="submit" class="h-11 sm:h-10 px-6 flex-[2] sm:flex-none rounded-lg bg-primary hover:bg-primary-container text-on-primary font-mono text-[12px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 transition-all hover:scale-[1.02] disabled:opacity-60 disabled:pointer-events-none cursor-pointer">
+                  <span id="extract-btn-text">EXTRACT</span>
+                  <span id="extract-btn-icon" class="material-symbols-outlined text-[18px]">bolt</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- ERROR ALERT BANNER (Hidden by default) -->
+        <div id="error-box" class="hidden mt-6 rounded-xl bg-error-container/40 border border-error/50 p-4 flex items-start gap-3">
+          <span class="material-symbols-outlined text-error text-[22px] shrink-0 mt-0.5">error</span>
+          <div class="flex-1 min-w-0">
+            <div class="font-mono text-[11px] font-bold uppercase tracking-wider text-error">Ekstraksi Gagal</div>
+            <p id="error-message" class="text-[13px] text-on-surface mt-0.5">Terjadi kesalahan saat memproses URL.</p>
+          </div>
+          <button type="button" onclick="document.getElementById('error-box').classList.add('hidden')" class="text-error/80 hover:text-error cursor-pointer">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+
+        <!-- RESULT SECTION (Hidden by default) -->
+        <section id="result-section" class="hidden">
+          <!-- Telemetry Header -->
+          <div class="flex flex-wrap items-center justify-between gap-2 mt-8 mb-3 px-1">
+            <div class="flex items-center gap-2">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+              </span>
+              <span class="font-mono text-[11px] tracking-wider text-tertiary font-bold uppercase">MEDIA SIAP DIUNDUH</span>
+            </div>
+            <div class="font-mono text-[11px] text-on-surface-variant flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">speed</span>
+              <span>Diekstrak dalam <strong id="elapsed-time" class="text-on-surface">0.00s</strong></span>
+            </div>
+          </div>
+
+          <!-- Preview Card -->
+          <div class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row gap-5">
+            <!-- Thumbnail -->
+            <div class="relative w-full md:w-5/12 aspect-video rounded-lg overflow-hidden bg-surface-container-lowest shrink-0">
+              <img id="preview-thumb" alt="Media Thumbnail" class="w-full h-full object-cover" src=""/>
+              <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-transparent"></div>
+              <div id="preview-platform-badge" class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded bg-primary text-on-primary font-mono text-[10px] font-bold uppercase shadow-md">
+                PLATFORM
+              </div>
+              <div id="preview-duration" class="hidden absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/90 text-on-surface font-mono text-[10px] tracking-wider backdrop-blur-md">
+                00:00
+              </div>
+            </div>
+
+            <!-- Metadata -->
+            <div class="flex flex-col justify-between flex-1 min-w-0">
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span id="preview-type-badge" class="px-2 py-0.5 rounded bg-surface-container text-tertiary font-mono text-[10px] font-semibold uppercase tracking-wide">VIDEO</span>
+                  <span id="preview-count-badge" class="font-mono text-[11px] text-on-surface-variant">• 3 opsi tersedia</span>
+                </div>
+                <h2 id="preview-title" class="font-syne text-[18px] sm:text-[20px] leading-7 font-bold text-on-surface line-clamp-3 break-words">
+                  Judul Media
+                </h2>
+              </div>
+
+              <div class="flex items-center justify-between pt-4 mt-4 border-t border-outline-variant/20">
+                <span class="font-mono text-[11px] text-tertiary flex items-center gap-1.5 font-medium">
+                  <span class="material-symbols-outlined text-[16px]">verified</span>
+                  Pilih kualitas di bawah untuk mengunduh
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Format / Slide Grid -->
+          <div id="formats-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5"></div>
+        </section>
+
+        <!-- FEATURE STRIP -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-10">
+          <div class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-low/60 border border-outline-variant/20">
+            <span class="material-symbols-outlined text-tertiary text-[20px] shrink-0">no_accounts</span>
+            <div>
+              <div class="font-mono text-[12px] font-semibold text-on-surface">Tanpa Login</div>
+              <div class="text-[12px] text-on-surface-variant">Ekstraksi instan tanpa akun</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-low/60 border border-outline-variant/20">
+            <span class="material-symbols-outlined text-secondary text-[20px] shrink-0">all_inclusive</span>
+            <div>
+              <div class="font-mono text-[12px] font-semibold text-on-surface">Hybrid Streaming</div>
+              <div class="text-[12px] text-on-surface-variant">Direct CDN &amp; Server Stream</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-low/60 border border-outline-variant/20">
+            <span class="material-symbols-outlined text-primary text-[20px] shrink-0">verified_user</span>
+            <div>
+              <div class="font-mono text-[12px] font-semibold text-on-surface">Kualitas Asli</div>
+              <div class="text-[12px] text-on-surface-variant">Video HD, Audio &amp; Carousel</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="w-full bg-surface-container-lowest border-t border-outline-variant/20 py-6 mt-10">
+    <div class="max-w-[880px] mx-auto px-4 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="font-mono text-[11px] text-on-surface-variant flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-tertiary"></span>
+        <span>FETCHLY v1.0 • Powered by Go &amp; yt-dlp</span>
+      </div>
+      <div class="text-[12px] text-outline">
+        Gunakan untuk keperluan pribadi &amp; hormati hak cipta kreator.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT CONTROLLER -->
+  <script>
+    const form = document.getElementById("extract-form");
+    const urlInput = document.getElementById("url-input");
+    const pasteBtn = document.getElementById("paste-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const extractBtn = document.getElementById("extract-btn");
+    const extractBtnText = document.getElementById("extract-btn-text");
+    const extractBtnIcon = document.getElementById("extract-btn-icon");
+
+    const errorBox = document.getElementById("error-box");
+    const errorMessage = document.getElementById("error-message");
+    const resultSection = document.getElementById("result-section");
+    const formatsGrid = document.getElementById("formats-grid");
+
+    // Toggle tombol clear
+    urlInput.addEventListener("input", () => {
+      clearBtn.classList.toggle("hidden", urlInput.value.trim() === "");
+    });
+
+    clearBtn.addEventListener("click", () => {
+      urlInput.value = "";
+      clearBtn.classList.add("hidden");
+      urlInput.focus();
+    });
+
+    // Tombol Paste dari Clipboard
+    pasteBtn.addEventListener("click", async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+          urlInput.value = text.trim();
+          clearBtn.classList.remove("hidden");
+        }
+      } catch {
+        urlInput.focus();
+      }
+    });
+
+    // Submit form ke POST /api/extract
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const targetURL = urlInput.value.trim();
+      if (!targetURL) return;
+
+      // Reset state UI
+      errorBox.classList.add("hidden");
+      resultSection.classList.add("hidden");
+      setLoading(true);
+
+      const startTime = performance.now();
+
+      try {
+        const response = await fetch("/api/extract", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: targetURL })
+        });
+
+        const data = await response.json();
+        const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
+
+        if (!response.ok || data.status !== "success") {
+          throw new Error(data.message || "Gagal mengekstrak media.");
+        }
+
+        renderResult(data, elapsed);
+      } catch (err) {
+        errorMessage.textContent = err.message;
+        errorBox.classList.remove("hidden");
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    function setLoading(isLoading) {
+      extractBtn.disabled = isLoading;
+      if (isLoading) {
+        extractBtnText.textContent = "EXTRACTING...";
+        extractBtnIcon.textContent = "progress_activity";
+        extractBtnIcon.classList.add("animate-spin");
+      } else {
+        extractBtnText.textContent = "EXTRACT";
+        extractBtnIcon.textContent = "bolt";
+        extractBtnIcon.classList.remove("animate-spin");
+      }
+    }
+
+    // Escape teks dari server sebelum disisipkan ke innerHTML (anti XSS)
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[ch]));
+    }
+
+    function renderResult(data, elapsed) {
+      document.getElementById("elapsed-time").textContent = `${elapsed}s`;
+      document.getElementById("preview-thumb").src = data.thumbnail || "";
+      document.getElementById("preview-title").textContent = data.title || "Untitled Media";
+      document.getElementById("preview-platform-badge").textContent = data.platform.toUpperCase();
+      document.getElementById("preview-type-badge").textContent = data.media_type.toUpperCase();
+      document.getElementById("preview-count-badge").textContent = `• ${data.formats.length} opsi tersedia`;
+
+      const durationEl = document.getElementById("preview-duration");
+      if (data.duration) {
+        durationEl.textContent = data.duration;
+        durationEl.classList.remove("hidden");
+      } else {
+        durationEl.classList.add("hidden");
+      }
+
+      // Render kartu opsi format / slide
+      formatsGrid.innerHTML = "";
+      const accents = [
+        { bar: "bg-tertiary", badgeBg: "bg-tertiary/15", text: "text-tertiary", btnHover: "hover:bg-tertiary hover:text-on-tertiary", tag: "OPTION 01" },
+        { bar: "bg-secondary", badgeBg: "bg-secondary/15", text: "text-secondary", btnHover: "hover:bg-secondary hover:text-on-secondary", tag: "OPTION 02" },
+        { bar: "bg-primary", badgeBg: "bg-primary/20", text: "text-primary", btnHover: "hover:bg-primary hover:text-on-primary", tag: "OPTION 03" }
+      ];
+
+      // Buat nama file aman dari judul media agar tidak menjadi download.txt
+      const safeTitle = (data.title || "fetchly_media")
+        .replace(/[^a-zA-Z0-9_\- ]/g, "")
+        .trim()
+        .replace(/\s+/g, "_")
+        .substring(0, 50) || "fetchly_media";
+
+      data.formats.forEach((fmt, idx) => {
+        const style = accents[idx % accents.length];
+        const sizeText = fmt.file_size_approx ? ` • ${esc(fmt.file_size_approx)}` : "";
+        const streamLabel = fmt.is_stream ? "SERVER STREAM" : "DIRECT CDN";
+
+        const fileName = `${safeTitle}_${idx + 1}.${String(fmt.ext).replace(/[^a-z0-9]/gi, "")}`;
+        const finalHref = fmt.is_stream
+          ? `${fmt.download_url}&filename=${encodeURIComponent(fileName)}`
+          : `/api/download?proxy=1&url=${encodeURIComponent(fmt.download_url)}&filename=${encodeURIComponent(fileName)}`;
+
+        const card = document.createElement("div");
+        card.className = "relative bg-surface-container-low border border-outline-variant/30 rounded-xl p-4 shadow-md flex flex-col justify-between group hover:bg-surface-container transition-colors";
+
+        card.innerHTML = `
+          <div class="absolute top-0 left-0 right-0 h-1 ${style.bar} rounded-t-xl opacity-80 group-hover:opacity-100"></div>
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2 py-0.5 rounded-full ${style.badgeBg} ${style.text} font-mono text-[10px] font-bold uppercase tracking-wider">
+                ${streamLabel}
+              </span>
+              <span class="font-mono text-[11px] font-bold uppercase text-on-surface-variant">.${esc(fmt.ext)}</span>
+            </div>
+            <h3 class="font-syne text-[18px] font-bold text-on-surface mb-1">${esc(fmt.quality)}</h3>
+            <p class="font-mono text-[11px] text-on-surface-variant">
+              .${esc(String(fmt.ext).toUpperCase())}${sizeText}
+            </p>
+          </div>
+          <div class="mt-4 pt-2">
+            <a
+              href="${esc(finalHref)}"
+              class="w-full h-11 rounded-lg bg-surface-container-highest ${style.btnHover} text-on-surface font-mono text-[12px] uppercase tracking-wider font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
+            >
+              <span class="material-symbols-outlined text-[18px]">download</span>
+              <span>DOWNLOAD</span>
+            </a>
+          </div>
+        `;
+
+        formatsGrid.appendChild(card);
+      });
+
+      resultSection.classList.remove("hidden");
+      resultSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  </script>
+</body>
+</html>
