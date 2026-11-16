@@ -22,11 +22,10 @@ const (
 	maxBodyBytes   = 16 << 10
 )
 
-// Config mengatur batas proses yang boleh berjalan bersamaan. Nilai <= 0 memakai default.
 type Config struct {
-	MaxExtract int // proses yt-dlp metadata bersamaan (default 4)
-	MaxStream  int // proses yt-dlp unduhan bersamaan (default 2)
-	MaxProxy   int // proxy CDN bersamaan (default 20)
+	MaxExtract int
+	MaxStream  int
+	MaxProxy   int
 }
 
 type MediaHandler struct {
@@ -73,7 +72,6 @@ func (h *MediaHandler) Extract(c *gin.Context) {
 	}
 	defer h.extractSem.Release()
 
-	// Timeout 30 detik agar yt-dlp.exe di Windows punya cukup waktu saat cold start
 	ctx, cancel := context.WithTimeout(c.Request.Context(), extractTimeout)
 	defer cancel()
 
@@ -107,7 +105,6 @@ func (h *MediaHandler) Download(c *gin.Context) {
 	h.downloadStream(c)
 }
 
-// downloadProxy meneruskan file dari CDN yang ada di allowlist (anti-SSRF / open proxy).
 func (h *MediaHandler) downloadProxy(c *gin.Context) {
 	u, err := validate.ParseCDNURL(c.Query("url"))
 	if err != nil {
@@ -131,7 +128,6 @@ func (h *MediaHandler) downloadProxy(c *gin.Context) {
 	}
 }
 
-// downloadStream mengunduh via yt-dlp. Hanya YouTube dan hanya format_id yang dikenal server.
 func (h *MediaHandler) downloadStream(c *gin.Context) {
 	u, platform, err := validate.ParsePlatformURL(c.Query("url"))
 	if err != nil || platform != validate.YouTube {
@@ -165,7 +161,7 @@ func (h *MediaHandler) downloadStream(c *gin.Context) {
 func (h *MediaHandler) downloadFailed(c *gin.Context, target string, err error) {
 	log.Printf("[DOWNLOAD ERROR] Target: %s | Detail: %v\n", target, err)
 	if c.Writer.Written() {
-		return // header sudah terkirim, tidak bisa mengirim JSON error lagi
+		return
 	}
 	switch {
 	case errors.Is(err, streamer.ErrTooLarge):

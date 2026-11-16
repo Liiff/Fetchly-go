@@ -8,8 +8,6 @@ import (
 	"github.com/Liiff/fetchly-go/internal/model"
 )
 
-// StreamFormat adalah satu pilihan unduhan YouTube. Client hanya mengirim ID pendek;
-// selector yt-dlp tidak pernah diterima dari luar.
 type StreamFormat struct {
 	ID       string
 	Quality  string
@@ -36,7 +34,6 @@ var youtubeFormats = []StreamFormat{
 	},
 }
 
-// LookupStreamFormat mencari format berdasarkan ID dari client.
 func LookupStreamFormat(id string) (StreamFormat, bool) {
 	for _, f := range youtubeFormats {
 		if f.ID == id {

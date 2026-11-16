@@ -16,7 +16,6 @@ func TestExtractMediaRejectsBadURLs(t *testing.T) {
 		"file:///etc/passwd",
 	}
 	for _, raw := range bad {
-		// Semua ini harus ditolak sebelum yt-dlp dijalankan.
 		_, err := ExtractMedia(context.Background(), raw)
 		if !errors.Is(err, ErrUnsupportedPlatform) {
 			t.Errorf("ExtractMedia(%q) err = %v, want ErrUnsupportedPlatform", raw, err)
@@ -70,7 +69,6 @@ func TestCleanCaption(t *testing.T) {
 	if got := cleanCaption("pendek"); got != "pendek" {
 		t.Errorf("got %q", got)
 	}
-	// 150 karakter multibyte tidak boleh terpotong di tengah rune
 	long := ""
 	for i := 0; i < 150; i++ {
 		long += "é"

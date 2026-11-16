@@ -1,4 +1,3 @@
-// Package validate berisi validasi input dari client: URL platform, URL CDN, dan nama file.
 package validate
 
 import (
@@ -8,7 +7,6 @@ import (
 	"strings"
 )
 
-// Platform adalah platform sumber media yang didukung.
 type Platform string
 
 const (
@@ -22,7 +20,6 @@ var (
 	ErrHostNotAllowed = errors.New("host tidak diizinkan")
 )
 
-// URL CDN TikTok/Instagram yang ditandatangani bisa sangat panjang.
 const maxURLLength = 8192
 
 var platformHosts = map[Platform][]string{
@@ -31,15 +28,12 @@ var platformHosts = map[Platform][]string{
 	Instagram: {"instagram.com"},
 }
 
-// cdnSuffixes adalah domain CDN yang boleh diakses lewat /api/download?proxy=1.
-// Tambahkan lewat AddCDNSuffixes (mis. dari env EXTRA_CDN_HOSTS) bila ada CDN baru.
 var cdnSuffixes = []string{
 	"cdninstagram.com", "fbcdn.net", "instagram.com",
 	"tiktokcdn.com", "tiktokcdn-us.com", "tiktokv.com", "tiktokv.us", "tiktok.com",
 	"byteoversea.com", "ibytedtos.com", "ibyteimg.com", "muscdn.com",
 }
 
-// AddCDNSuffixes menambah domain CDN yang diizinkan. Panggil hanya saat startup.
 func AddCDNSuffixes(suffixes ...string) {
 	for _, s := range suffixes {
 		s = strings.ToLower(strings.Trim(strings.TrimSpace(s), "."))
@@ -49,8 +43,6 @@ func AddCDNSuffixes(suffixes ...string) {
 	}
 }
 
-// HostMatches true jika host sama persis dengan salah satu suffix, atau subdomain-nya.
-// "youtube.com.evil.net" TIDAK cocok dengan "youtube.com".
 func HostMatches(host string, suffixes ...string) bool {
 	host = strings.ToLower(strings.TrimSuffix(host, "."))
 	for _, s := range suffixes {
@@ -82,7 +74,6 @@ func parseHTTPURL(raw string) (*url.URL, error) {
 	return u, nil
 }
 
-// ParsePlatformURL memvalidasi URL halaman media dan mendeteksi platformnya.
 func ParsePlatformURL(raw string) (*url.URL, Platform, error) {
 	u, err := parseHTTPURL(raw)
 	if err != nil {
@@ -96,12 +87,10 @@ func ParsePlatformURL(raw string) (*url.URL, Platform, error) {
 	return nil, "", ErrHostNotAllowed
 }
 
-// CDNAllowed true jika host URL termasuk allowlist CDN.
 func CDNAllowed(u *url.URL) bool {
 	return HostMatches(u.Hostname(), cdnSuffixes...)
 }
 
-// ParseCDNURL memvalidasi URL file media langsung: wajib https dan host dalam allowlist.
 func ParseCDNURL(raw string) (*url.URL, error) {
 	u, err := parseHTTPURL(raw)
 	if err != nil {
@@ -121,7 +110,6 @@ var allowedExt = map[string]bool{
 	".jpg": true, ".jpeg": true, ".png": true, ".webp": true,
 }
 
-// splitName membersihkan nama file: hanya ASCII aman, tanpa path, panjang dibatasi.
 func splitName(name string) (base, ext string) {
 	name = path.Base(strings.ReplaceAll(name, `\`, "/"))
 	var b strings.Builder
@@ -146,8 +134,6 @@ func splitName(name string) (base, ext string) {
 	return base, ext
 }
 
-// Filename membersihkan nama file dari client. Ekstensi dipertahankan bila ada di
-// allowlist, selain itu diganti defaultExt (contoh: ".mp4").
 func Filename(name, defaultExt string) string {
 	base, ext := splitName(name)
 	if !allowedExt[ext] {
@@ -156,7 +142,6 @@ func Filename(name, defaultExt string) string {
 	return base + ext
 }
 
-// FilenameWithExt membersihkan nama file dan memaksa ekstensi tertentu (contoh: ".m4a").
 func FilenameWithExt(name, ext string) string {
 	base, _ := splitName(name)
 	return base + ext

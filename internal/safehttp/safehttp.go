@@ -1,6 +1,3 @@
-// Package safehttp menyediakan http.Client yang tidak bisa dipakai untuk SSRF:
-// koneksi hanya ke IP publik (dicek saat dial, jadi kebal DNS rebinding) dan
-// setiap redirect divalidasi ulang.
 package safehttp
 
 import (
@@ -26,7 +23,6 @@ var blockedPrefixes = []netip.Prefix{
 	netip.MustParsePrefix("240.0.0.0/4"),
 }
 
-// IsPublicAddr true hanya untuk alamat unicast global yang bukan privat/loopback/link-local.
 func IsPublicAddr(addr netip.Addr) bool {
 	addr = addr.Unmap()
 	if !addr.IsValid() || !addr.IsGlobalUnicast() || addr.IsPrivate() {
@@ -40,7 +36,6 @@ func IsPublicAddr(addr netip.Addr) bool {
 	return true
 }
 
-// controlPublicOnly dipanggil Go setelah DNS di-resolve, tepat sebelum connect().
 func controlPublicOnly(_, address string, _ syscall.RawConn) error {
 	host, _, err := net.SplitHostPort(address)
 	if err != nil {
@@ -56,8 +51,6 @@ func controlPublicOnly(_, address string, _ syscall.RawConn) error {
 	return nil
 }
 
-// New membuat client aman. timeout 0 berarti tanpa batas total (andalkan context),
-// allow memvalidasi host setiap redirect.
 func New(timeout time.Duration, allow func(*url.URL) bool) *http.Client {
 	dialer := &net.Dialer{
 		Timeout:   10 * time.Second,
@@ -65,7 +58,7 @@ func New(timeout time.Duration, allow func(*url.URL) bool) *http.Client {
 		Control:   controlPublicOnly,
 	}
 	transport := &http.Transport{
-		Proxy:                 nil, // jangan pakai proxy dari environment
+		Proxy:                 nil,
 		DialContext:           dialer.DialContext,
 		TLSHandshakeTimeout:   10 * time.Second,
 		ResponseHeaderTimeout: 20 * time.Second,

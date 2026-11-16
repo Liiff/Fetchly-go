@@ -20,18 +20,15 @@ import (
 )
 
 const (
-	// MaxFileBytes adalah batas ukuran satu unduhan (yt-dlp --max-filesize dan proxy CDN).
 	MaxFileBytes = 500 << 20
 
 	userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 )
 
-// cdnClient tanpa timeout total (file besar); batas waktu diatur lewat context pemanggil.
 var cdnClient = safehttp.New(0, func(u *url.URL) bool { return validate.CDNAllowed(u) })
 
 var ErrTooLarge = errors.New("file melebihi batas ukuran")
 
-// contentDisposition membangun header yang aman dari karakter kontrol/kutip (anti header injection).
 func contentDisposition(filename string) string {
 	if v := mime.FormatMediaType("attachment", map[string]string{"filename": filename}); v != "" {
 		return v
@@ -46,11 +43,7 @@ func setDownloadHeaders(w http.ResponseWriter, filename string) {
 	h.Set("X-Content-Type-Options", "nosniff")
 }
 
-// StreamMedia menjalankan yt-dlp ke folder sementara lalu mengirim hasilnya ke client.
-// targetURL, selector, dan ext HARUS sudah divalidasi oleh pemanggil.
-// ext memakai titik di depan (contoh: ".mp4").
 func StreamMedia(ctx context.Context, w http.ResponseWriter, targetURL, selector, ext, filename string) error {
-	// Folder sementara: file bagian (video/audio terpisah) ikut terhapus walau proses dibatalkan.
 	dir, err := os.MkdirTemp("", "fetchly-*")
 	if err != nil {
 		return fmt.Errorf("gagal membuat folder sementara: %w", err)
@@ -103,9 +96,6 @@ func StreamMedia(ctx context.Context, w http.ResponseWriter, targetURL, selector
 	return err
 }
 
-// ProxyDirectURL meneruskan file dari CDN sumber ke browser.
-// cdnURL HARUS sudah lolos validate.ParseCDNURL; client-nya sendiri juga menolak IP
-// privat dan redirect ke host di luar allowlist.
 func ProxyDirectURL(ctx context.Context, w http.ResponseWriter, cdnURL, filename string) error {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, cdnURL, nil)
 	if err != nil {
@@ -131,7 +121,6 @@ func ProxyDirectURL(ctx context.Context, w http.ResponseWriter, cdnURL, filename
 		w.Header().Set("Content-Length", strconv.FormatInt(resp.ContentLength, 10))
 	}
 
-	// Batas keras juga untuk respons tanpa Content-Length (chunked).
 	_, err = io.Copy(w, io.LimitReader(resp.Body, MaxFileBytes))
 	return err
 }

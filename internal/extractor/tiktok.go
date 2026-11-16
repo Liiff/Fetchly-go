@@ -18,7 +18,6 @@ func (t *TikTokExtractor) Extract(ctx context.Context, targetURL string) (*model
 
 	var options []model.FormatOption
 
-	// Pilih MP4 (video+audio) beresolusi tertinggi yang tidak berlabel "watermark".
 	var best *ytdlpFormat
 	for i := range raw.Formats {
 		f := &raw.Formats[i]
@@ -49,7 +48,6 @@ func (t *TikTokExtractor) Extract(ctx context.Context, targetURL string) (*model
 		})
 	}
 
-	// Fallback jika format spesifik di atas tidak ditemukan, gunakan URL utama
 	if len(options) == 0 && raw.URL != "" {
 		options = append(options, model.FormatOption{
 			FormatID:    "default",
@@ -60,7 +58,6 @@ func (t *TikTokExtractor) Extract(ctx context.Context, targetURL string) (*model
 		})
 	}
 
-	// Tambahkan opsi audio asli TikTok
 	for _, f := range raw.Formats {
 		if f.VCodec == "none" && f.ACodec != "none" && f.URL != "" {
 			size := f.Filesize

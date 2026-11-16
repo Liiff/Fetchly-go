@@ -36,20 +36,15 @@ func envInt(key string, def int) int {
 }
 
 func main() {
-	// Release mode secara default; set GIN_MODE=debug saat development.
 	if os.Getenv("GIN_MODE") == "" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	// Domain CDN tambahan yang boleh di-proxy, contoh: EXTRA_CDN_HOSTS=example-cdn.com,foo.net
 	validate.AddCDNSuffixes(envList("EXTRA_CDN_HOSTS")...)
 
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
 
-	// Secara default tidak ada proxy yang dipercaya, jadi X-Forwarded-For dari client diabaikan
-	// dan rate limit memakai IP koneksi asli. Jika di belakang reverse proxy/Cloudflare,
-	// isi TRUSTED_PROXIES (daftar IP/CIDR dipisah koma), jika tidak semua pengguna dianggap satu IP.
 	if err := r.SetTrustedProxies(envList("TRUSTED_PROXIES")); err != nil {
 		log.Fatalf("TRUSTED_PROXIES tidak valid: %v", err)
 	}
@@ -62,8 +57,8 @@ func main() {
 		MaxProxy:   envInt("MAX_PROXY", 20),
 	})
 
-	extractLimiter := limit.NewIPLimiter(20, 5)   // 20 permintaan/menit per IP, burst 5
-	downloadLimiter := limit.NewIPLimiter(30, 10) // 30 permintaan/menit per IP, burst 10
+	extractLimiter := limit.NewIPLimiter(20, 5)
+	downloadLimiter := limit.NewIPLimiter(30, 10)
 
 	api := r.Group("/api")
 	{
@@ -84,8 +79,6 @@ func main() {
 		Handler:           r,
 		ReadHeaderTimeout: 10 * time.Second,
 		IdleTimeout:       60 * time.Second,
-		// WriteTimeout sengaja tidak diset: unduhan besar bisa berjalan lama,
-		// batas waktunya diatur per-request lewat context di handler.
 	}
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)

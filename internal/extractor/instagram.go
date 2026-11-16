@@ -18,15 +18,13 @@ import (
 
 const (
 	igUserAgent    = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-	igMaxBodyBytes = 8 << 20 // batas halaman embed yang dibaca
+	igMaxBodyBytes = 8 << 20
 )
 
 var (
-	// Regex di-compile sekali saat startup, bukan di setiap request.
 	reShortcodeMedia = regexp.MustCompile(`"shortcode_media"\s*:\s*(\{.*?\})\s*,\s*"context"`)
 	reCDNImage       = regexp.MustCompile(`https://[^"'\s\\]+cdninstagram\.com/v/t51\.2885-15/[^"'\s\\]+`)
 
-	// Client hanya boleh ke IP publik dan redirect hanya ke instagram.com.
 	igClient = safehttp.New(15*time.Second, func(u *url.URL) bool {
 		return validate.HostMatches(u.Hostname(), "instagram.com")
 	})
@@ -35,7 +33,6 @@ var (
 type InstagramExtractor struct{}
 
 func (ig *InstagramExtractor) Extract(ctx context.Context, targetURL string) (*model.MediaResponse, error) {
-	// 1. Coba gunakan yt-dlp terlebih dahulu (sangat efektif untuk IG Reels / Video tunggal)
 	if raw, err := runYTDLP(ctx, targetURL); err == nil && raw.URL != "" {
 		return &model.MediaResponse{
 			Status:    "success",
@@ -56,11 +53,9 @@ func (ig *InstagramExtractor) Extract(ctx context.Context, targetURL string) (*m
 		}, nil
 	}
 
-	// 2. Fallback: Ekstrak Foto Tunggal atau Carousel via HTTP Request
 	return ig.extractPhotoOrCarousel(ctx, targetURL)
 }
 
-// embedURL membentuk https://www.instagram.com/<path>/embed/captioned/ tanpa query/fragment.
 func embedURL(targetURL string) (string, error) {
 	u, err := url.Parse(targetURL)
 	if err != nil {
@@ -114,7 +109,6 @@ func (ig *InstagramExtractor) extractPhotoOrCarousel(ctx context.Context, target
 
 	var options []model.FormatOption
 
-	// Cari data JSON tersembunyi (shortcode_media) di dalam halaman embed
 	if matches := reShortcodeMedia.FindStringSubmatch(html); len(matches) > 1 {
 		var mediaData struct {
 			igNode
@@ -158,7 +152,6 @@ func (ig *InstagramExtractor) extractPhotoOrCarousel(ctx context.Context, target
 		}
 	}
 
-	// Fallback regex jika struktur JSON embed berubah
 	if len(options) == 0 {
 		seen := make(map[string]bool)
 		slideIdx := 1

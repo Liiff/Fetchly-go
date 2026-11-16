@@ -12,7 +12,6 @@ import (
 	"github.com/Liiff/fetchly-go/internal/ytdlp"
 )
 
-// ytdlpOutput merepresentasikan field penting dari output `yt-dlp --dump-json`
 type ytdlpOutput struct {
 	ID        string        `json:"id"`
 	Title     string        `json:"title"`
@@ -35,8 +34,6 @@ type ytdlpFormat struct {
 	FormatNote     string `json:"format_note"`
 }
 
-// runYTDLP menjalankan `yt-dlp --dump-json --no-playlist` dengan context timeout.
-// targetURL HARUS sudah divalidasi oleh pemanggil (lihat validate.ParsePlatformURL).
 func runYTDLP(ctx context.Context, targetURL string) (*ytdlpOutput, error) {
 	args := []string{
 		"--dump-json",
@@ -46,7 +43,6 @@ func runYTDLP(ctx context.Context, targetURL string) (*ytdlpOutput, error) {
 		"--socket-timeout", "15",
 	}
 	args = append(args, ytdlp.CookieArgs()...)
-	// "--" memastikan targetURL tidak pernah dibaca sebagai opsi yt-dlp.
 	args = append(args, "--", targetURL)
 
 	cmd := exec.CommandContext(ctx, ytdlp.BinaryPath("yt-dlp"), args...)
@@ -66,8 +62,6 @@ func runYTDLP(ctx context.Context, targetURL string) (*ytdlpOutput, error) {
 	return &data, nil
 }
 
-// classifyYTDLPError mengubah stderr yt-dlp menjadi sentinel error agar handler
-// tidak perlu mencocokkan string.
 func classifyYTDLPError(runErr error, stderr string) error {
 	lower := strings.ToLower(stderr)
 	tail := ytdlp.Tail(strings.TrimSpace(stderr), 500)
@@ -89,7 +83,6 @@ func classifyYTDLPError(runErr error, stderr string) error {
 	return fmt.Errorf("%w: %v | stderr: %s", ErrExtractionFailed, runErr, tail)
 }
 
-// formatBytes mengubah ukuran byte menjadi string yang mudah dibaca (contoh: "24.5 MB")
 func formatBytes(bytes int64) string {
 	if bytes <= 0 {
 		return ""
@@ -106,7 +99,6 @@ func formatBytes(bytes int64) string {
 	return fmt.Sprintf("%.1f %cB", float64(bytes)/float64(div), "KMGTPE"[exp])
 }
 
-// formatDuration mengubah detik menjadi MM:SS, atau H:MM:SS untuk durasi >= 1 jam
 func formatDuration(seconds float64) string {
 	if seconds <= 0 {
 		return ""
@@ -121,7 +113,6 @@ func formatDuration(seconds float64) string {
 	return fmt.Sprintf("%02d:%02d", mins, secs)
 }
 
-// truncateRunes memotong string berdasarkan jumlah karakter (bukan byte) agar UTF-8 tidak rusak.
 func truncateRunes(s string, max int) string {
 	if utf8.RuneCountInString(s) <= max {
 		return s

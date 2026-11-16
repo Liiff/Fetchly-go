@@ -1,11 +1,9 @@
 package model
 
-// ExtractRequest merepresentasikan payload JSON dari client pada POST /api/extract
 type ExtractRequest struct {
 	URL string `json:"url" binding:"required"`
 }
 
-// FormatOption merepresentasikan satu opsi resolusi/format unduhan atau satu slide carousel
 type FormatOption struct {
 	FormatID       string `json:"format_id"`
 	Quality        string `json:"quality"`
@@ -15,7 +13,6 @@ type FormatOption struct {
 	DownloadURL    string `json:"download_url"`
 }
 
-// MediaResponse merepresentasikan respons standar sukses untuk POST /api/extract
 type MediaResponse struct {
 	Status    string         `json:"status"`
 	Platform  string         `json:"platform"`
@@ -26,7 +23,6 @@ type MediaResponse struct {
 	Formats   []FormatOption `json:"formats"`
 }
 
-// ErrorResponse merepresentasikan respons standar saat terjadi kesalahan
 type ErrorResponse struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`

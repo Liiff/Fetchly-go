@@ -1,4 +1,3 @@
-// Package limit berisi pembatas konkurensi dan rate limit per IP (tanpa dependensi luar).
 package limit
 
 import (
@@ -9,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Semaphore membatasi jumlah pekerjaan berat yang berjalan bersamaan.
 type Semaphore chan struct{}
 
 func NewSemaphore(n int) Semaphore {
@@ -19,7 +17,6 @@ func NewSemaphore(n int) Semaphore {
 	return make(Semaphore, n)
 }
 
-// TryAcquire tidak menunggu: false bila slot penuh.
 func (s Semaphore) TryAcquire() bool {
 	select {
 	case s <- struct{}{}:
@@ -36,7 +33,6 @@ type visitor struct {
 	last   time.Time
 }
 
-// IPLimiter adalah token bucket per alamat IP.
 type IPLimiter struct {
 	mu       sync.Mutex
 	perSec   float64
@@ -44,7 +40,6 @@ type IPLimiter struct {
 	visitors map[string]*visitor
 }
 
-// NewIPLimiter: perMinute = laju isi ulang, burst = kapasitas bucket.
 func NewIPLimiter(perMinute float64, burst int) *IPLimiter {
 	l := &IPLimiter{
 		perSec:   perMinute / 60,
@@ -89,7 +84,6 @@ func (l *IPLimiter) cleanupLoop() {
 	}
 }
 
-// Middleware menolak dengan 429 bila IP melewati batas.
 func (l *IPLimiter) Middleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if !l.Allow(c.ClientIP()) {
